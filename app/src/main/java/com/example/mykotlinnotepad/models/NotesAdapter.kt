@@ -31,10 +31,12 @@ class NotesAdapter(val title:List<String>,val content:List<String>) : RecyclerVi
 //        holder.cvNote.cardBackgroundColor = holder.view.resources.getColor(getRandomColour(),null)
 //        holder?.txtTitle.setText(titles.get(position))
 //        holder?.txtContent.setText(contents.get(position))
-//        holder?.cvNote.setCardBackgroundColor(holder.view.resources.getColor(getRandomColour(),null))
+        holder.cvNote.setCardBackgroundColor(holder.view.resources.getColor(getRandomColour(),null))
         val context = holder.txtTitle.context
         holder.view.setOnClickListener {
             val intent = Intent(context, DetailNotesActivity::class.java)
+            intent.putExtra("titles", title.get(position))
+            intent.putExtra("contents", content.get(position))
             context.startActivity(intent)
         }
     }
@@ -48,14 +50,7 @@ class NotesAdapter(val title:List<String>,val content:List<String>) : RecyclerVi
                 R.color.navajowhite,
                 R.color.wheat,
                 R.color.burlywood,
-                R.color.tan,
-                R.color.rosybrown,
-                R.color.sandybrown,
-                R.color.goldenrod,
-                R.color.peru,
-                R.color.chocolate,
-                R.color.saddlebrown,
-                R.color.brown,
+                R.color.tan
         ))
 
         var randomColour = Random

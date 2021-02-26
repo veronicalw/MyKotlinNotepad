@@ -4,45 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailNotesActivity">
+    android:backgroundTint="@android:color/transparent"
+    tools:context=".AddNotesActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbars"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/burlywood"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <TextView
-                android:id="@+id/titleNotesDetail"
+            <EditText
+                android:id="@+id/edtNoteTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
+                android:backgroundTint="@android:color/transparent"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="Your Title ..."
+                android:textColor="#fff"
+                android:textColorHint="#FFFFFF"
                 android:textStyle="bold" />
-
         </androidx.appcompat.widget.Toolbar>
-
-
-
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/activity_detail_content_notes" />
-
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/fab"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="bottom|end"-->
-<!--        android:layout_margin="@dimen/fab_margin"-->
-<!--        app:backgroundTint="@color/colorPrimaryDark"-->
-<!--        app:maxImageSize="35dp"-->
-<!--        app:srcCompat="@drawable/ic_mode_edit_black_24dp" />-->
+    <include layout="@layout/activity_add_notes_content" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
