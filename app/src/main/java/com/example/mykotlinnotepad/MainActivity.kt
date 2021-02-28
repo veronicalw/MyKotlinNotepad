@@ -27,24 +27,30 @@ import com.google.firebase.firestore.Query
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
+    //Objects
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     private lateinit var menuDrawer: ImageView
     private lateinit var addNotes: ImageView
     private lateinit var layoutDashboard : LinearLayout
     private lateinit var rvStore : RecyclerView
+    private lateinit var userNames : TextView
+    private lateinit var userEmails : TextView
+    //Firebase
     lateinit var firestore: FirebaseFirestore
     lateinit var firebaseAuth: FirebaseAuth
     lateinit var firebaseUser: FirebaseUser
-
+    //Custom Navigation Drawer
     private var endScale : Float = 1.8f
     private lateinit var notesAsapters: FirestoreRecyclerAdapter<Notes, NotesViewHolders>
     private var TAG : String ="TAGDELETE"
+    lateinit var headerView : View
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_main)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         drawerLayout = findViewById(R.id.layoutDrawer)
         navigationView = findViewById(R.id.navigation_view)
@@ -58,7 +64,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseUser = firebaseAuth.currentUser!!
 
-        var query: Query = firestore.collection("hinotes").orderBy("titles", Query.Direction.DESCENDING)
+        var query: Query = firestore.collection("hinotes").document(firebaseAuth.uid.toString()).collection("hiNotesUser").orderBy("titles", Query.Direction.DESCENDING)
+        //Query Notes for Specific User
+
         var notess: FirestoreRecyclerOptions<Notes> = FirestoreRecyclerOptions.Builder<Notes>().setQuery(query, Notes::class.java).build()
 
         notesAsapters = object:FirestoreRecyclerAdapter<Notes, NotesViewHolders>(notess){
@@ -83,8 +91,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
 
                 val imageMenu: ImageView = holder.view.findViewById(R.id.menu)
-                val documentReference: DocumentReference =
-                    firestore.collection("hinotes").document(docId)
                 imageMenu.setOnClickListener {
                     val popupMenu: PopupMenu = PopupMenu(it.context,it)
                     var docId = notesAsapters.snapshots.getSnapshot(position).id
@@ -103,8 +109,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     //Pop-Up Delete
                     popupMenu.menu.add("Delete").setOnMenuItemClickListener(object:
                         MenuItem.OnMenuItemClickListener {
+                        val documentReferences: DocumentReference =
+                            firestore.collection("hinotes").document(firebaseUser.uid).collection("hiNotesUser").document(docId)
                         override fun onMenuItemClick(p0: MenuItem?): Boolean {
-                            documentReference
+                            documentReferences
                                 .delete()
                                 .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!")
                                     Toast.makeText(this@MainActivity,"Successfully Deleted!", Toast.LENGTH_SHORT).show()}
@@ -122,6 +130,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         rvStore.layoutManager = GridLayoutManager(this,2)
         rvStore.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
         rvStore.adapter = notesAsapters
+
+        //Set Navigation Drawer Header with Textview to Display User's Name and Email
+        headerView = navigationView.getHeaderView(0)
+        userNames = headerView.findViewById(R.id.userNames)
+        userEmails = headerView.findViewById(R.id.userEmails)
+        userNames.setText(firebaseUser.displayName)
+        userEmails.setText(firebaseUser.email)
+
+        //To set if the logged user is anonymous
+        if (firebaseUser.isAnonymous){
+            userNames.setText("Temporary Account")
+            userEmails.visibility = View.GONE
+        } else {
+            userNames.setText(firebaseUser.displayName)
+            userEmails.setText(firebaseUser.email)
+        }
 
 //        Toast.makeText(this,"Array : " + titless.toString(), Toast.LENGTH_LONG).show()
         addNotes.setOnClickListener {
@@ -145,6 +169,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //                    FirebaseAuth.getInstance().signOut()
                     checkingUser()
                     drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                }
+                R.id.nav_profile -> {
+                    if (firebaseUser.isAnonymous){
+                        val intent = Intent(this, RegisterActivity::class.java)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this, "You are connected already", Toast.LENGTH_LONG).show()
+//                        val inten
+                    }
+
                     true
                 }
 
@@ -176,13 +211,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .setMessage("You are currently using temporary account, logging out will delete all of your data")
             .setPositiveButton("Let's Sync Your Note", object : DialogInterface.OnClickListener {
                 override fun onClick(p0: DialogInterface?, p1: Int) {
-                    //Delete anonymous user
-//                    var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
-                    firebaseUser?.delete()?.addOnSuccessListener{
-                        val intent = Intent(this@MainActivity, SplashScreenActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
+                    val intent = Intent(this@MainActivity, RegisterActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
             })
             .setNegativeButton("Log Out", object : DialogInterface.OnClickListener{

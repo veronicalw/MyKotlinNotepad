@@ -52,9 +52,6 @@ class DetailNotesActivity : AppCompatActivity() {
                 startActivity(intent)
                 return true
             }
-            R.id.nav_delete -> {
-                return true
-            }
             R.id.nav_share -> {
                 return true
             }

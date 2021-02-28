@@ -11,9 +11,11 @@
         android:roundIcon="@drawable/notebook"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyKotlinNotepad">
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".RegisterActivity" />
         <activity
             android:name=".EditNotesActivity"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"></activity>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity android:name=".AddNotesActivity" />
         <activity android:name=".DetailNotesActivity" />
         <activity android:name=".MainActivity" />

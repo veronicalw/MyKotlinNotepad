@@ -6,10 +6,6 @@
         android:title="Edit"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/nav_delete"
-        android:title="Delete"
-        app:showAsAction="never"/>
-    <item
         android:id="@+id/nav_share"
         android:title="Share"
         app:showAsAction="never"/>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity">
+
+    <ProgressBar
+        android:id="@+id/progressBarRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/background_compress"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:textColor="@color/burlywood"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/gaegu_bold"
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:layout_gravity="center"/>
+
+<!--        CardView-->
+            <androidx.cardview.widget.CardView
+                android:layout_width="350dp"
+                android:layout_height="420dp"
+                android:elevation="10dp"
+                app:cardCornerRadius="10dp"
+                android:layout_gravity="center_horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <EditText
+                        android:id="@+id/edtName"
+                        android:layout_width="280dp"
+                        android:layout_height="55dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/saddlebrown"
+                        android:backgroundTint="@color/navajowhite"
+                        android:hint="Name"
+                        android:inputType="textPersonName"/>
+                    <EditText
+                        android:id="@+id/edtEmail"
+                        android:layout_width="280dp"
+                        android:layout_height="55dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/saddlebrown"
+                        android:backgroundTint="@color/navajowhite"
+                        android:hint="E-mail"
+                        android:inputType="textEmailAddress"/>
+                    <EditText
+                        android:id="@+id/edtPassword"
+                        android:layout_width="280dp"
+                        android:layout_height="55dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/saddlebrown"
+                        android:backgroundTint="@color/navajowhite"
+                        android:hint="Password"
+                        android:inputType="textPassword"/>
+                    <EditText
+                        android:id="@+id/edtConfirmPassword"
+                        android:layout_width="280dp"
+                        android:layout_height="55dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/saddlebrown"
+                        android:backgroundTint="@color/navajowhite"
+                        android:hint="Re-type Password"
+                        android:inputType="textPassword"/>
+                    <Button
+                        android:id="@+id/btnRegister"
+                        android:layout_width="280dp"
+                        android:layout_height="55dp"
+                        android:layout_marginTop="15dp"
+                        android:backgroundTint="@color/navajowhite"
+                        android:text="Sign Up and Sync"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/coco_gothic_heavy_trial"/>
+<!--                    Already Have an Account Login-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="8dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Already have an account?  "/>
+                        <TextView
+                            android:id="@+id/txtLinkLogin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Login"
+                            android:textColor="@color/blue"/>
+                    </LinearLayout>
+<!--                    Already Have an Account Login-->
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+<!--        CardView-->
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
