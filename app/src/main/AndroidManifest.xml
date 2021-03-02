@@ -3,6 +3,8 @@
     package="com.example.mykotlinnotepad">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +13,9 @@
         android:roundIcon="@drawable/notebook"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyKotlinNotepad">
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".ForgotPassActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity
             android:name=".EditNotesActivity"
@@ -26,6 +30,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".alarmmanager.AlarmReceivers"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
+
+<!--        <service-->
+<!--            android:name=".alarmmanager.AlarmService"-->
+<!--            android:enabled="true" />-->
     </application>
 
 </manifest>
