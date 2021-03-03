@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var firestore: FirebaseFirestore
     lateinit var firebaseAuth: FirebaseAuth
     lateinit var firebaseUser: FirebaseUser
+
     //Custom Navigation Drawer
     private var endScale : Float = 1.8f
     private lateinit var notesAsapters: FirestoreRecyclerAdapter<Notes, NotesViewHolders>
@@ -63,6 +64,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         firestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseUser = firebaseAuth.currentUser!!
+
 
         var query: Query = firestore.collection("hinotes").document(firebaseAuth.uid.toString()).collection("hiNotesUser").orderBy("titles", Query.Direction.DESCENDING)
         //Query Notes for Specific User

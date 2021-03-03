@@ -1,6 +1,7 @@
 package com.example.mykotlinnotepad.preferences
 
 import android.app.*
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -22,8 +23,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         preference = findPreference("alarm")!!
-        preference.setOnPreferenceClickListener {
-            if (preference.isEnabled){
+
+        preference.setOnPreferenceChangeListener { buttonView, isChecked ->
+            if (isChecked as Boolean){
                 alarmService = AlarmService(context as Activity)
                 val alertDialog = AlertDialog.Builder(context as Activity).setTitle("Schedule your alarm")
                         .setMessage("You're going to set alarm for daily writing notes")
@@ -32,39 +34,80 @@ class SettingsFragment : PreferenceFragmentCompat() {
                                 showTimePicker {
                                     alarmService.setRepetitiveAlarm(it)
                                 }
-//                        showTimePicker()
                             }
 
                         })
                         .setNegativeButton("Cancel", object : DialogInterface.OnClickListener{
                             override fun onClick(p0: DialogInterface?, p1: Int) {
                                 p0?.dismiss()
+                                !isChecked
                             }
                         })
                 alertDialog.show()
-            } else if (!!preference.isEnabled){
+            } else {
                 val alertDialogSwitch = AlertDialog.Builder(context as Activity).setTitle("Turn off Alarm")
                         .setMessage("are you sure ?")
                         .setPositiveButton("Yes", object : DialogInterface.OnClickListener{
                             override fun onClick(p0: DialogInterface?, p1: Int) {
+                                val alarmManager: AlarmManager = (context as Activity).getSystemService(Context.ALARM_SERVICE) as AlarmManager
                                 val intent = Intent(context as Activity, AlarmService::class.java)
                                 var pendingIntent: PendingIntent = PendingIntent.getService(context as Activity,0,intent,0)
-
-//                                showTimePicker {
-//                                    alarmService.cancelAlarm(pendingIntent)
-//                                }
+                                alarmManager.cancel(pendingIntent)
                             }
                         })
                         .setNegativeButton("No", object : DialogInterface.OnClickListener{
                             override fun onClick(p0: DialogInterface?, p1: Int) {
                                 p0?.dismiss()
+                                !isChecked
                             }
                         })
                 alertDialogSwitch.show()
             }
-
             true
         }
+//        preference.setOnPreferenceClickListener {
+//            if (preference.isEnabled){
+//                alarmService = AlarmService(context as Activity)
+//                val alertDialog = AlertDialog.Builder(context as Activity).setTitle("Schedule your alarm")
+//                        .setMessage("You're going to set alarm for daily writing notes")
+//                        .setPositiveButton("Set Alarm", object : DialogInterface.OnClickListener{
+//                            override fun onClick(p0: DialogInterface?, p1: Int) {
+//                                showTimePicker {
+//                                    alarmService.setRepetitiveAlarm(it)
+//                                }
+////                        showTimePicker()
+//                            }
+//
+//                        })
+//                        .setNegativeButton("Cancel", object : DialogInterface.OnClickListener{
+//                            override fun onClick(p0: DialogInterface?, p1: Int) {
+//                                p0?.dismiss()
+//                            }
+//                        })
+//                alertDialog.show()
+//            } else if (!!preference.isEnabled){
+//                val alertDialogSwitch = AlertDialog.Builder(context as Activity).setTitle("Turn off Alarm")
+//                        .setMessage("are you sure ?")
+//                        .setPositiveButton("Yes", object : DialogInterface.OnClickListener{
+//                            override fun onClick(p0: DialogInterface?, p1: Int) {
+//                                val intent = Intent(context as Activity, AlarmService::class.java)
+//                                var pendingIntent: PendingIntent = PendingIntent.getService(context as Activity,0,intent,0)
+//
+////                                showTimePicker {
+////                                    alarmService.cancelAlarm(pendingIntent)
+////                                }
+//                            }
+//                        })
+//                        .setNegativeButton("No", object : DialogInterface.OnClickListener{
+//                            override fun onClick(p0: DialogInterface?, p1: Int) {
+//                                p0?.dismiss()
+//                            }
+//                        })
+//                alertDialogSwitch.show()
+//            }
+//
+//            true
+//        }
     }
 
     private fun showTimePicker(callback: (Long) -> Unit) {
