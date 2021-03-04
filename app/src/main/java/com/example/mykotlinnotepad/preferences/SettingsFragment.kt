@@ -23,7 +23,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         preference = findPreference("alarm")!!
-
         preference.setOnPreferenceChangeListener { buttonView, isChecked ->
             if (isChecked as Boolean){
                 alarmService = AlarmService(context as Activity)
@@ -31,6 +30,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         .setMessage("You're going to set alarm for daily writing notes")
                         .setPositiveButton("Set Alarm", object : DialogInterface.OnClickListener{
                             override fun onClick(p0: DialogInterface?, p1: Int) {
+                                preference.setDefaultValue(true)
                                 showTimePicker {
                                     alarmService.setRepetitiveAlarm(it)
                                 }
@@ -39,8 +39,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         })
                         .setNegativeButton("Cancel", object : DialogInterface.OnClickListener{
                             override fun onClick(p0: DialogInterface?, p1: Int) {
+                                preference.setDefaultValue(false)
                                 p0?.dismiss()
-                                !isChecked
                             }
                         })
                 alertDialog.show()
@@ -49,6 +49,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         .setMessage("are you sure ?")
                         .setPositiveButton("Yes", object : DialogInterface.OnClickListener{
                             override fun onClick(p0: DialogInterface?, p1: Int) {
+                                preference.setDefaultValue(true)
                                 val alarmManager: AlarmManager = (context as Activity).getSystemService(Context.ALARM_SERVICE) as AlarmManager
                                 val intent = Intent(context as Activity, AlarmService::class.java)
                                 var pendingIntent: PendingIntent = PendingIntent.getService(context as Activity,0,intent,0)
@@ -57,8 +58,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
                         })
                         .setNegativeButton("No", object : DialogInterface.OnClickListener{
                             override fun onClick(p0: DialogInterface?, p1: Int) {
+                                preference.setDefaultValue(false)
                                 p0?.dismiss()
-                                !isChecked
                             }
                         })
                 alertDialogSwitch.show()

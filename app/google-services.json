@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "356072312070",
+    "project_id": "hinotes",
+    "storage_bucket": "hinotes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356072312070:android:1eab39f116520611c26287",
+        "android_client_info": {
+          "package_name": "com.example.mykotlinnotepad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "356072312070-e1fphikgqrgb2g43m60m18l6mo261orh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvmSzw9pKWR8tQmYlLPZiIV6CvEGQre0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "356072312070-e1fphikgqrgb2g43m60m18l6mo261orh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
