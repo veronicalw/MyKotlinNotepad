@@ -14,7 +14,6 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.*
 import com.example.mykotlinnotepad.models.Notes
-import com.example.mykotlinnotepad.models.NotesAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.gms.tasks.OnSuccessListener
@@ -225,9 +224,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             })
             .setNegativeButton("Log Out", object : DialogInterface.OnClickListener{
                 override fun onClick(p0: DialogInterface?, p1: Int) {
-                    val intent = Intent(this@MainActivity, SplashScreenActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    firebaseUser.delete().addOnSuccessListener(object : OnSuccessListener<Void> {
+                        override fun onSuccess(it: Void?) {
+                            val intent = Intent(this@MainActivity, SplashScreenActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    })
                 }
             })
         alertDialog.show()
